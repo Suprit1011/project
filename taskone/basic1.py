@@ -1,7 +1,7 @@
 import cv2 as cv
-
+import numpy as np
 # Read in an image
-img = cv.imread(r'C:\Users\ASUS\OneDrive\Desktop\project\taskone\img.png')
+img = cv.imread('taskone\img.png')
 cv.imshow('owl', img)
 
 # Converting to grayscale
@@ -9,7 +9,7 @@ gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
 cv.imshow('Gray', gray)
 
 # Blur 
-blur = cv.GaussianBlur(img, (7,7), cv.BORDER_DEFAULT)
+blur = cv.GaussianBlur(img, (3,3), cv.BORDER_DEFAULT)
 cv.imshow('Blur', blur)
 
 # Edge Cascade
@@ -31,7 +31,6 @@ cv.imshow('Resized', resized)
 # Cropping
 cropped = img[50:200, 200:400]
 cv.imshow('Cropped', cropped)
-
 
 blank = np.zeros(img.shape, dtype='uint8')
 cv.imshow('Blank', blank)
@@ -59,10 +58,6 @@ def translate(img, x, y):
     dimensions = (img.shape[1], img.shape[0])
     return cv.warpAffine(img, transMat, dimensions)
 
-# -x --> Left
-# -y --> Up
-# x --> Right
-# y --> Down
 
 translated = translate(img, -100, 100)
 cv.imshow('Translated', translated)
