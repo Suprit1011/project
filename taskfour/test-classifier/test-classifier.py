@@ -1,7 +1,3 @@
-
-
-
-
 import os
 from dotenv import load_dotenv
 from azure.cognitiveservices.vision.customvision.prediction import CustomVisionPredictionClient
