@@ -1,10 +1,11 @@
-
 import cv2
 import numpy as np
+
 
 def main():
     # Load the image
     image = cv2.imread(r'tasktwo\lineimg.png')
+    ruler_image=cv2.imread(r'tasktwo\ruler.jpg')
     cv2.imshow('original',image) 
     # Convert the image to grayscale
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -12,7 +13,7 @@ def main():
     # Apply edge detection
     edges = cv2.Canny(gray, 50, 150, apertureSize=3)
     dilated = cv2.dilate(edges, (5,5), iterations=3)
-    cv2.imshow('Dilated', dilated)
+    
 
     # Find lines in the image
     lines = cv2.HoughLinesP(dilated, rho=1, theta=np.pi/180, threshold=100, minLineLength=50, maxLineGap=10)
@@ -42,18 +43,60 @@ def main():
     # Draw the thinnest point and line segment
     if thinnest_point is not None:
         cv2.circle(image, thinnest_point, 5, (0, 0, 255), -1)
-        
 
-    # Display the image
-   
-    cv2.imshow("Image", image)
+
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+    # Apply edge detection (if needed)
+    edges = cv2.Canny(gray, 50, 150, apertureSize=3)
+
+    # Detect lines using Hough Line Transform
+    lines = cv2.HoughLines(edges, 1, np.pi / 180, 100)
+
+    # Draw detected lines on a copy of the original image
+    line_image = np.copy(image)
+    for line in lines:
+        rho, theta = line[0]
+        a = np.cos(theta)
+        b = np.sin(theta)
+        x0 = a * rho
+        y0 = b * rho
+        x1 = int(x0 + 1000 * (-b))
+        y1 = int(y0 + 1000 * (a))
+        x2 = int(x0 - 1000 * (-b))
+        y2 = int(y0 - 1000 * (a))
+        cv2.line(line_image, (x1, y1), (x2, y2), (0, 0, 255), 2)
+
+    # Straighten the detected line
+    angle = theta * 180 / np.pi
+    if angle < 45:
+        angle += 90
+    else:
+        angle -= 90
+
+    h, w = image.shape[:2]
+    center = (w // 2, h // 2)
+    rotation_matrix = cv2.getRotationMatrix2D(center, angle, 1.0)
+    rotated_image = cv2.warpAffine(image, rotation_matrix, (w, h), flags=cv2.INTER_LINEAR)
+
+    # Resize the ruler image to match the width of the rotated image
+    resized_ruler_image = cv2.resize(ruler_image, (rotated_image.shape[1], ruler_image.shape[0]))
+    # Calculate the position of the thinnest point in the original image coordinates
+    thinnest_point_original = (int(thinnest_point[0] * (resized_ruler_image.shape[1] / rotated_image.shape[1])), int(thinnest_point[1] * (resized_ruler_image.shape[0] / rotated_image.shape[0])))
+
+    # Draw a vertical line on the ruler image at the position of the thinnest point
+    cv2.line(resized_ruler_image, (thinnest_point_original[0], 0), (thinnest_point_original[0], resized_ruler_image.shape[0]), (0, 0, 255), 2)
+
+    # Vertically concatenate the rotated image and the resized ruler image
+    concatenated_image = np.vstack((resized_ruler_image,rotated_image))
+
+    cv2.imshow('Concatenated Image', concatenated_image)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
+    # cv2.imwrite("combined_image.jpg", combined_image)
 if __name__ == "__main__":
-    main()
-
-
+    main()  
 
 
 
