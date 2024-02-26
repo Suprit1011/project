@@ -1,10 +1,10 @@
 import cv2
 import numpy as np
-
+import math
 
 def main():
     # Load the image
-    image = cv2.imread(r'tasktwo\lineimg.png')
+    image = cv2.imread(r'tasktwo\img2.jpg')
     ruler_image=cv2.imread(r'tasktwo\ruler.jpg')
     cv2.imshow('original',image) 
     # Convert the image to grayscale
@@ -89,6 +89,10 @@ def main():
 
     # Vertically concatenate the rotated image and the resized ruler image
     concatenated_image = np.vstack((resized_ruler_image,rotated_image))
+    total_parts = 9
+    part_width = resized_ruler_image.shape[1] / total_parts
+    value = math.ceil(thinnest_point_original[0] / part_width)
+    print("Value marked on the ruler:", value)
 
     cv2.imshow('Concatenated Image', concatenated_image)
     cv2.waitKey(0)
