@@ -98,11 +98,11 @@ def main(image):
     speech=tts.init()
     answer="The focal length is "+str(value)+"mm"
     speech.say(answer)
-    
+    speech.runAndWait()
     cv2.imshow('Concatenated Image', concatenated_image)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
-    speech.runAndWait()
+    
     
 
     # cv2.imwrite("combined_image.jpg", concatenated_image)
