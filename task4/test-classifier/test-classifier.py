@@ -31,7 +31,7 @@ if __name__ == "__main__":
         prediction_key = os.getenv("PredictionKey")
         project_id = os.getenv("ProjectID")
         model_name = os.getenv("ModelName")
-        image_folder = r"taskfour\test-classifier\test-images"
+        image_folder = r"task4\test-classifier\test-images"
 
         classify_images(prediction_endpoint, prediction_key, project_id, model_name, image_folder)
 

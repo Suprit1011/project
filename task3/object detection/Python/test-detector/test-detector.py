@@ -22,7 +22,7 @@ def main():
         prediction_client = CustomVisionPredictionClient(endpoint=prediction_endpoint, credentials=credentials)
 
         # Load image and get height, width and channels
-        image_file = r'taskthree\object detection\Python\test-detector\produce.jpg'
+        image_file = r'task3\object detection\Python\test-detector\produce.jpg'
         print('Detecting objects in', image_file)
         image = Image.open(image_file)
         h, w, ch = np.array(image).shape
@@ -53,7 +53,7 @@ def main():
                 # Add the tag name and probability
                 plt.annotate(prediction.tag_name + ": {0:.2f}%".format(prediction.probability * 100),(left,top), backgroundcolor=color)
         plt.imshow(image)
-        outputfile = r'taskthree\object detection\Python\test-detector\output.jpg'
+        outputfile = r'task3\object detection\Python\test-detector\output.jpg'
         fig.savefig(outputfile)
         print('Results saved in ', outputfile)
     except Exception as ex:

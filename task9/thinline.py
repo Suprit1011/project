@@ -1,12 +1,11 @@
 import cv2
 import numpy as np
 import math
-import pyttsx3 as tts
 
 def main(image):
     
     
-    ruler_image=cv2.imread(r'taskTen\ruler.jpg')
+    ruler_image=cv2.imread(r'task9\ruler.jpg')
     cv2.imshow('original',image) 
     # Convert the image to grayscale
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -94,19 +93,17 @@ def main(image):
     part_width = resized_ruler_image.shape[1] / total_parts
     value = math.ceil(thinnest_point_original[0] / part_width)
     print("Value marked on the ruler:", value)
-    #text to speech conversion
-    speech=tts.init()
-    answer="The focal length is "+str(value)+"mm"
-    speech.say(answer)
-    speech.runAndWait()
+
     cv2.imshow('Concatenated Image', concatenated_image)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
-    
-    
 
     # cv2.imwrite("combined_image.jpg", concatenated_image)
 if __name__ == "__main__":
     def __init__(self,image):
         main(image)
+
+
+
+
 

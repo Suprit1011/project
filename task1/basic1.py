@@ -1,7 +1,7 @@
 import cv2 as cv
 import numpy as np
 # Read in an image
-img = cv.imread('taskone\img.png')
+img = cv.imread('task1\img.png')
 cv.imshow('owl', img)
 
 # Converting to grayscale

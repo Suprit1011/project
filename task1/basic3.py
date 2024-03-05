@@ -2,7 +2,7 @@ import cv2 as cv
 import numpy as np
 import matplotlib.pyplot as plt
 # Read in an image
-img = cv.imread('taskone\img.png')
+img = cv.imread('task1\img.png')
 cv.imshow('owl', img)
 
 b,g,r=cv.split(img)
